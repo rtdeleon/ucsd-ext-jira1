@@ -4,6 +4,7 @@ import com.pwc.core.framework.JavascriptConstants;
 import com.pwc.core.framework.annotations.Issue;
 import com.pwc.core.framework.listeners.Retry;
 import com.ucsd.jira.automation.data.Constants;
+import com.ucsd.jira.automation.data.provider.ExcelDataProvider;
 import com.ucsd.jira.automation.frameworksupport.Groups;
 import com.ucsd.jira.automation.frameworksupport.JiraTestCase;
 import org.testng.annotations.Test;
@@ -95,6 +96,95 @@ public class JiraDashboardTest extends JiraTestCase {
         webElementVisible(Constants.DASHBOARDS_PAGE_DASHBOARD_NOT_FOUND_HEADING);
 
     }
+
+    @Issue("STORY-5")
+    @Test(description = "Create Dashboard Test Functional test using a dataProvider = \"animalsExcelData\"\"",
+            dataProvider = "animalsExcelData",
+            dataProviderClass = ExcelDataProvider.class,
+            /*retryAnalyzer = Retry.class,*/
+            groups = {Groups.ACCEPTANCE_TEST})
+    public void testCreateDashboard2(String animals) {
+
+        FEATURE("Jira Test - Create a new dashboard ");
+        SCENARIO("User logs in and creates a new dashboard");
+
+        GIVEN("I am logged in as a valid user");
+        webElementVisible(Constants.NAVBAR_PROFILE_BUTTON);
+        webAction(Constants.NAVBAR_PROFILE_BUTTON);
+        webElementVisible(Constants.PROFILE_JIRA_USER);
+
+        WHEN("I create a new dashboard by clicking Dashboard dropdown menu from the main header");
+        webElementVisible(Constants.NAVIGATION_DASHBOARDS);
+        webAction(Constants.NAVIGATION_DASHBOARDS);
+
+        AND("I click on the Create dashboard option");
+        webElementVisible(Constants.NAVIGATION_DASHBOARDS_CREATE_DASHBOARD);
+        webAction(Constants.NAVIGATION_DASHBOARDS_CREATE_DASHBOARD);
+
+        THEN("The expected Create dashboard modal is displayed");
+        webElementVisible(Constants.CREATE_DASHBOARD_MODAL);
+
+        THEN(String.format("I enter %s in the Name textbox field",animals/*Constants.AARDVARK*/));
+        webElementVisible(Constants.CREATE_DASHBOARD_MODAL_NAME);
+        webAction(Constants.CREATE_DASHBOARD_MODAL_NAME, animals/*Constants.AARDVARK*/);
+
+        AND("I click the Save cta");
+        webElementVisible(Constants.CREATE_DASHBOARD_MODAL_SAVE);
+        webAction(Constants.CREATE_DASHBOARD_MODAL_SAVE);
+
+        THEN(String.format("I expect the %s dashboard is displayed",animals/*Constants.AARDVARK*/));
+        waitForBrowserToLoad();
+        webElementVisible(Constants.DASHBOARD_NAME_HEADER);
+        webElementTextEquals(Constants.DASHBOARD_NAME_HEADER, animals/*Constants.AARDVARK*/);
+    }
+
+    @Issue("STORY-6")
+    @Test(description = "Delete Dashboard Test Functional test using a dataProvider = \"animalsExcelData\"",
+            dataProvider = "animalsExcelData",
+            dataProviderClass = ExcelDataProvider.class,
+            /*retryAnalyzer = Retry.class,*/
+            groups = {Groups.ACCEPTANCE_TEST})
+    public void testDeleteDashboard2(String animal) {
+
+        FEATURE("Jira Test - delete dashboard");
+        SCENARIO(String.format("User logs in and deletes dashboard %s", animal/*Constants.AARDVARK*/));
+
+        GIVEN("I am logged in as a valid user");
+        webElementVisible(Constants.NAVBAR_PROFILE_BUTTON);
+        webAction(Constants.NAVBAR_PROFILE_BUTTON);
+        webElementVisible(Constants.PROFILE_JIRA_USER);
+
+        WHEN(String.format("I delete dashboard %s by clicking Dashboard dropdown menu from the main header", animal/*Constants.AARDVARK*/));
+        webElementVisible(Constants.NAVIGATION_DASHBOARDS);
+        webAction(Constants.NAVIGATION_DASHBOARDS);
+
+        AND("I click on View all dashboards option");
+        webElementVisible(Constants.NAVIGATION_DASHBOARDS_VIEW_ALL_DASHBOARDS);
+        webAction(Constants.NAVIGATION_DASHBOARDS_VIEW_ALL_DASHBOARDS);
+
+        THEN("The expected Create dashboard modal is displayed");
+        webElementVisible(Constants.DASHBOARDS_PAGE_HEADER);
+
+        THEN(String.format("I enter %s in the search field textbox",animal/*Constants.AARDVARK*/));
+        webElementVisible(Constants.DASHBOARDS_PAGE_SEARCH_FIELD);
+        webAction(Constants.DASHBOARDS_PAGE_SEARCH_FIELD, animal/*Constants.AARDVARK*/);
+
+        THEN("I delete dashboard %s by clicking on the More icon cta");
+        webElementVisible(Constants.DASHBOARDS_PAGE_FIRST_ROW_MORE_CTA);
+        webAction(Constants.DASHBOARDS_PAGE_FIRST_ROW_MORE_CTA);
+
+        AND("I click on Delete dashboard");
+        webElementVisible(Constants.DASHBOARDS_PAGE_FIRST_ROW_MORE_CTA_DELETE_DASHBOARD_OPTION);
+        webAction(Constants.DASHBOARDS_PAGE_FIRST_ROW_MORE_CTA_DELETE_DASHBOARD_OPTION);
+
+        AND("I click on Delete cta");
+        webElementVisible(Constants.DELETE_DASHBOARD_CONFIRMATION_MODAL_DELETE_CTA);
+        webAction(Constants.DELETE_DASHBOARD_CONFIRMATION_MODAL_DELETE_CTA);
+
+        THEN(String.format("I expect No dashboards were found that match your search is displayed",animal/*Constants.AARDVARK*/));
+        webElementVisible(Constants.DASHBOARDS_PAGE_DASHBOARD_NOT_FOUND_HEADING);
+    }
+
 
     @Override
     public void beforeMethod() {
