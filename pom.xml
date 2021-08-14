@@ -75,6 +75,7 @@
     <spring.version>5.1.0.RELEASE</spring.version>
     <surefire.junit.version>2.18.1</surefire.junit.version>
     <testng.version>6.9.10</testng.version>
+    <webdrivermanager.version>3.8.1</webdrivermanager.version>
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -92,6 +93,7 @@
     </dependencies>
   </dependencyManagement>
   <dependencies>
+    <!-- ray's stuff ^^^^^^^-->
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-annotations</artifactId>
@@ -162,9 +164,26 @@
       <version>${commons.lang.version}</version>
     </dependency>
     <dependency>
+      <!-- WebDriverManager is a library which allows to automate the management of the drivers (e.g. chromedriver, geckodriver, etc.) required by Selenium WebDriver -->
+      <groupId>io.github.bonigarcia</groupId>
+      <artifactId>webdrivermanager</artifactId>
+      <version>${webdrivermanager.version}</version>
+    </dependency>
+    <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-dbcp2</artifactId>
       <version>${commonsdbcp2.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-api</artifactId>
+      <version>2.9.1</version>
+    </dependency>
+    <!-- ray's stuff-->
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-core</artifactId>
+      <version>2.9.1</version>
     </dependency>
     <dependency>
       <groupId>org.apache.poi</groupId>

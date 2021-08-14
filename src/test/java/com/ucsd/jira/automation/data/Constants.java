@@ -30,10 +30,20 @@ public final class Constants {
     // ANCHOR Elements
     public static final String FIRST_PROJECTS_ANCHOR = "//img[contains(@src, 'projectavatar')]/following-sibling::a";
     public static final String CREATE_ISSUE_MODAL_CANCEL = "//form[@name='jiraform']//a[contains(text(),'Cancel')]"; //Cancel cta
-    public static final String CREATE_ISSUE_MODAL_PROJECT_TTR = "Test Team R (TTR)";//"//li[@class='aui-list-item aui-list-item-li-test-team-r-(ttr) active']/a";
-    public static final String CREATE_ISSUE_MODAL_PROJECT_TT2R = "Test Team 2 R (TT2R)";//"//li[@class='aui-list-item aui-list-item-li-test-team-2-r-(tt2r) active']/a";
-    public static final String CREATE_ISSUE_MODAL_ISSUE_TYPE_BUG = "//a[contains(text(),'Bug')]";
-    public static final String CREATE_ISSUE_MODAL_ISSUE_TYPE_TASK = "//a[contains(text(),'Task')]";
+
+//    public static final String CREATE_ISSUE_MODAL_PROJECT_TTR = "Test Team R (TTR)";//"//li[@class='aui-list-item aui-list-item-li-test-team-r-(ttr) active']/a";
+    public static final String CREATE_ISSUE_MODAL_PROJECT_TTR = "//body/div[starts-with(@class,'ajs-layer') and contains(@aria-hidden,'false')]//li[starts-with(@id,'test-team-rr')]";
+//    public static final String CREATE_ISSUE_MODAL_PROJECT_TT2R = "Test Team 2 R (TT2R)";//"//li[@class='aui-list-item aui-list-item-li-test-team-2-r-(tt2r) active']/a";
+    public static final String CREATE_ISSUE_MODAL_PROJECT_TT2R = "//body/div[starts-with(@class,'ajs-layer') and contains(@aria-hidden,'false')]//li[starts-with(@id,'test-team-2-rr')]";
+
+//    public static final String CREATE_ISSUE_MODAL_ISSUE_TYPE_BUG = "//body/div[starts-with(@class,'ajs-layer') and contains(@aria-hidden,'false')]//li[contains(@id,'bug')]";
+//    public static final String CREATE_ISSUE_MODAL_ISSUE_TYPE_TASK = "//body/div[starts-with(@class,'ajs-layer') and contains(@aria-hidden,'false')]//li[contains(@id,'task')]";
+//    public static final String CREATE_ISSUE_MODAL_ISSUE_TYPE_EPIC = "//body/div[starts-with(@class,'ajs-layer') and contains(@aria-hidden,'false')]//li[contains(@id,'epic')]";
+//    public static final String CREATE_ISSUE_MODAL_ISSUE_TYPE_STORY = "//body/div[starts-with(@class,'ajs-layer') and contains(@aria-hidden,'false')]//li[contains(@id,'story')]";
+    public static final String CREATE_ISSUE_MODAL_ISSUE_TYPE_TASK = "//body/div[starts-with(@class,'ajs-layer') and contains(@aria-hidden,'false')]//li[contains(@id,'task')]/a[text()='Task']";
+    public static final String CREATE_ISSUE_MODAL_ISSUE_TYPE_BUG = "//body/div[starts-with(@class,'ajs-layer') and contains(@aria-hidden,'false')]//li[contains(@id,'bug')]/a[text()='Bug']";
+    public static final String CREATE_ISSUE_MODAL_ISSUE_TYPE_EPIC = "//body/div[starts-with(@class,'ajs-layer') and contains(@aria-hidden,'false')]//li[contains(@id,'epic')]/a[text()='Epic']";
+    public static final String CREATE_ISSUE_MODAL_ISSUE_TYPE_STORY = "//body/div[starts-with(@class,'ajs-layer') and contains(@aria-hidden,'false')]//li[contains(@id,'story')]";
     public static final String PROFILE_LOGOUT_USER_CTA = "//a[@href='/logout']";
 
     // INPUT Elements

@@ -8,6 +8,8 @@ import com.ucsd.jira.automation.frameworksupport.Groups;
 import com.ucsd.jira.automation.frameworksupport.JiraTestCase;
 import org.testng.annotations.Test;
 
+import java.util.Random;
+
 import static com.pwc.logging.service.LoggerService.*;
 import static com.pwc.logging.service.LoggerService.THEN;
 
@@ -24,7 +26,7 @@ public class JiraCreateIssueTest extends JiraTestCase {
     }
 
     @Issue("STORY-2")
-    @Test(retryAnalyzer = Retry.class, groups = {Groups.ACCEPTANCE_TEST})
+    @Test(/*retryAnalyzer = Retry.class,*/ groups = {Groups.ACCEPTANCE_TEST})
     public void testCreateAnIssue() throws InterruptedException {
 
         String description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
@@ -47,46 +49,56 @@ public class JiraCreateIssueTest extends JiraTestCase {
         THEN("The expected Create issue modal is displayed");
         webElementVisible(Constants.CREATE_ISSUE_MODAL_H2);
 
-//        THEN("I select project name");
-//        webElementVisible(Constants.CREATE_ISSUE_MODAL_PROJECT_INPUT);
-//        project = getWebElementText(Constants.CREATE_ISSUE_MODAL_PROJECT_INPUT);
-//        LOG(String.format("Project is: [%s]", project));
-//        if(!project.equalsIgnoreCase("Test Team R (TTR)")) {
-//            executeJavascript(combine(JavascriptConstants.CLICK_BY_XPATH,Constants.CREATE_ISSUE_MODAL_PROJECT_INPUT));
-////            webElementVisible(Constants.CREATE_ISSUE_MODAL_PROJECT_TTR);
-//            wait(2);
-//            waitForTextToDisplay(project);
-//            webAction(Constants.CREATE_ISSUE_MODAL_PROJECT_INPUT,"Test Team R (TTR)");
-////            webAction(Constants.CREATE_ISSUE_MODAL_PROJECT_TTR);
-//        } else {
-//            executeJavascript(combine(JavascriptConstants.CLICK_BY_XPATH,Constants.CREATE_ISSUE_MODAL_PROJECT_INPUT));
-//            //           webElementVisible(Constants.CREATE_ISSUE_MODAL_PROJECT_TT2R);
-//            wait(2);
-//            waitForTextToDisplay(project);
-//            webAction(Constants.CREATE_ISSUE_MODAL_PROJECT_INPUT,"Test Team 2 R (TT2R)");
-////            webAction(Constants.CREATE_ISSUE_MODAL_PROJECT_TT2R);
-//        }
+        THEN("I select project name");
+        webElementVisible(Constants.CREATE_ISSUE_MODAL_PROJECT_INPUT);
+        project = getWebElementText(Constants.CREATE_ISSUE_MODAL_PROJECT_INPUT);
+        LOG(String.format("Project is: [%s]", project));
+        executeJavascript(combine(JavascriptConstants.CLICK_BY_XPATH,Constants.CREATE_ISSUE_MODAL_PROJECT_INPUT));
+        if(!project.equalsIgnoreCase("Test Team RR (TST)" )) {
+            webElementVisible(Constants.CREATE_ISSUE_MODAL_PROJECT_TTR);
+            webAction(Constants.CREATE_ISSUE_MODAL_PROJECT_TTR);
+        } else {  //"Test Team 2 R (TEAM)"
+            webElementVisible(Constants.CREATE_ISSUE_MODAL_PROJECT_TT2R);
+            webAction(Constants.CREATE_ISSUE_MODAL_PROJECT_TT2R);
+        }
+        Thread.sleep(1000);
 
-//        THEN("I select issue type");
-//        webElementVisible(Constants.CREATE_ISSUE_MODAL_ISSUE_TYPE_INPUT);
-//        issueType = getWebElementText(Constants.CREATE_ISSUE_MODAL_ISSUE_TYPE_INPUT);
-//        LOG(String.format("Issue Type is: [%s]", issueType));
-//        executeJavascript(combine(JavascriptConstants.CLICK_BY_XPATH,Constants.CREATE_ISSUE_MODAL_ISSUE_TYPE_INPUT));
-//        if(!issueType.equalsIgnoreCase("Task")) {
-//            it="TASK";
-//            LOG("Changing Issue Type to: [Task]");
-////            executeJavascript(combine(JavascriptConstants.CLICK_BY_XPATH,Constants.CREATE_ISSUE_MODAL_ISSUE_TYPE_INPUT));
-////            webElementVisible(Constants.CREATE_ISSUE_MODAL_ISSUE_TYPE_TASK);
-//            webAction(Constants.CREATE_ISSUE_MODAL_ISSUE_TYPE_INPUT,"Task");
-////            webAction(Constants.CREATE_ISSUE_MODAL_ISSUE_TYPE_TASK);
-//        } else /*if(!issueType.equalsIgnoreCase("Bug"))*/{
-//            it="BUG";
-//            LOG("Changing Issue Type to: [Bug]");
-////            executeJavascript(combine(JavascriptConstants.CLICK_BY_XPATH,Constants.CREATE_ISSUE_MODAL_ISSUE_TYPE_INPUT));
-////            webElementVisible(Constants.CREATE_ISSUE_MODAL_ISSUE_TYPE_BUG);
-//            webAction(Constants.CREATE_ISSUE_MODAL_PROJECT_INPUT,"Bug");
-////            webAction(Constants.CREATE_ISSUE_MODAL_ISSUE_TYPE_BUG);
-//        }
+        THEN("I select issue type");
+        webElementVisible(Constants.CREATE_ISSUE_MODAL_ISSUE_TYPE_INPUT);
+        issueType = getWebElementText(Constants.CREATE_ISSUE_MODAL_ISSUE_TYPE_INPUT);
+        LOG(String.format("Issue Type is: [%s]", issueType));
+        switch(new Random().nextInt(4) + 1) {
+            case 1:
+                LOG(String.format("case 1: Issue Type is the default [%s]", issueType));
+                break;
+            case 2:
+                executeJavascript(combine(JavascriptConstants.CLICK_BY_XPATH,Constants.CREATE_ISSUE_MODAL_ISSUE_TYPE_INPUT));
+                Thread.sleep(5000);
+                it = "TASK";
+                LOG(String.format("case 2: Changing Issue Type to: [%s]", it));
+                webElementVisible(Constants.CREATE_ISSUE_MODAL_ISSUE_TYPE_TASK);
+                webAction(Constants.CREATE_ISSUE_MODAL_ISSUE_TYPE_TASK);
+                break;
+            case 3:
+                executeJavascript(combine(JavascriptConstants.CLICK_BY_XPATH,Constants.CREATE_ISSUE_MODAL_ISSUE_TYPE_INPUT));
+                Thread.sleep(5000);
+                it = "BUG";
+                LOG(String.format("case 3: Changing Issue Type to: [%s]", it));
+                webElementVisible(Constants.CREATE_ISSUE_MODAL_ISSUE_TYPE_BUG);
+                webAction(Constants.CREATE_ISSUE_MODAL_ISSUE_TYPE_BUG);
+                break;
+            case 4:
+                executeJavascript(combine(JavascriptConstants.CLICK_BY_XPATH,Constants.CREATE_ISSUE_MODAL_ISSUE_TYPE_INPUT));
+                Thread.sleep(5000);
+                it = "EPIC";
+                LOG(String.format("case 4: Changing Issue Type to: [%s]", it));
+                webElementVisible(Constants.CREATE_ISSUE_MODAL_ISSUE_TYPE_EPIC);
+                webAction(Constants.CREATE_ISSUE_MODAL_ISSUE_TYPE_EPIC);
+                break;
+            default:
+        }
+
+        Thread.sleep(1000);
 
         THEN("I enter text in the summary field");
         webElementVisible(Constants.CREATE_ISSUE_MODAL_SUMMARY_INPUT);
@@ -96,9 +108,15 @@ public class JiraCreateIssueTest extends JiraTestCase {
         webElementVisible(Constants.CREATE_ISSUE_MODAL_DESCRIPTION_TEXTAREA);
         webAction(Constants.CREATE_ISSUE_MODAL_DESCRIPTION_TEXTAREA, description);
 
+
         THEN("I click on create cta");
         webElementVisible(Constants.CREATE_ISSUE_MODAL_CREATE_INPUT);
         webAction(Constants.CREATE_ISSUE_MODAL_CREATE_INPUT);
+
+    }
+
+    private static int randomNum() {
+        return new Random().nextInt(4) + 1;
 
     }
 
